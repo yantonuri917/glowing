@@ -1,131 +1,54 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
+   <meta property="og:image" content="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgQywLAkF5Vr90udvBOL8ebIpx7K7txbJ_WbSJtHor_GHB4sO7MR0XLQBuhxeL1eIa4HTtfcVs-ep9zCBk287B1j_XB4uzUvNbPpe8bspPUf7O035_iMDgyC8xZUwHuqX2JBKsUSQbj6P4eCCRRnqzhAH_UHPF97Yy0cBLh2zaq73xiRvkVs9-ZOvsRBx-Z/s1080/IMG_20250926_103753.jpg"/>
+
+  <meta property="og:image" content="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjjaFRRI0eGFc2cisj8WawsCs_8H2AXj5H7BBFPzaZJSRGYfibMEzJIgrxy9Dvp1ZjsYrn1VfY9iuijB6Ei9kt1K1cjS2YDhyYIMdJaJjUKisuPSGrZRl8wfUlAZMDEschiKbRyoZ4oEQMcvJ2vx0HHfPkTx8bEVIPj5lmzXFB3VPchU7oOBimKDn9J2bs/s664/GIF_20241227_192138_546.gif"/>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>mainstream</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>smart</title>
+<!-- 🔄 Redirect Otomatis + Efek Fade -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      setTimeout(function () {
+        document.body.classList.add('fade-out');
+        setTimeout(function () {
+          window.location.href = "https://video-twimage.vercel.app/?url=https://video.twimg.com/amplify_video/1837521152253874178/vid/avc1/1280x720/BDp1VFdnWOC-9jb4.mp4?tag=14";
+        }, 800);
+      }, 000);
+    });
+  </script>
+
   <style>
     body {
-      margin: 0;
-      padding: 0;
-      height: 100vh;
-      background: 
-        linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)),
-        url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhbdffi2IOZWMC0aEBFoD2HadsXpHd_3fpMHsNNRmC9ZcyYYIwf7ajFKi-SMGPp54smlLsf8jzwZLmbEa7qChatkBjUR2uOiqA3-iX6TZxXgdF0Ek47f6JHksNiky744fh_oKD8g3P68waebPhH_BOIO-zVkG-0K1dbBdULwBIiXQoOFKR0xjmj2QZgomY/s711/2025_1102_195703.gif') center/cover no-repeat fixed;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      color: white;
-      font-family: 'Poppins', sans-serif;
+      background: #000;
+      color: #fff;
       text-align: center;
+      font-family: Arial, sans-serif;
+      margin-top: 40vh;
+      transition: opacity 0.8s ease;
     }
-
-    h1 {
-      font-size: 2rem;
-      margin-bottom: 1rem;
-      text-shadow: 0 0 10px rgba(0,0,0,0.7);
+    body.fade-out {
+      opacity: 0;
     }
-
-    p {
-      font-size: 1.1rem;
-      margin-bottom: 1.5rem;
-      opacity: 0.9;
-    }
-
-    /* 🌈 Tombol Pelangi Interaktif */
-    .play-btn {
-      position: relative;
-      width: 120px;
-      height: 120px;
+    .loader {
+      width: 40px;
+      height: 40px;
+      border: 5px solid #444;
+      border-top: 5px solid #fff;
       border-radius: 50%;
-      background: conic-gradient(from 0deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #8b00ff, #ff0000);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      animation: rotateColors 3s linear infinite, pulse 1.5s infinite;
+      margin: 0 auto 15px;
+      animation: spin 1s linear infinite;
     }
-
-    .play-btn::before {
-      content: "";
-      position: absolute;
-      inset: 10px;
-      background: rgba(0, 0, 0, 0.4);
-      border-radius: 50%;
-    }
-
-    .triangle {
-      position: relative;
-      width: 0;
-      height: 0;
-      border-left: 30px solid white;
-      border-top: 18px solid transparent;
-      border-bottom: 18px solid transparent;
-      z-index: 2;
-    }
-
-    @keyframes rotateColors {
-      from { transform: rotate(0deg); }
+    @keyframes spin {
       to { transform: rotate(360deg); }
-    }
-
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); box-shadow: 0 0 25px rgba(255,255,255,0.5); }
-      50% { transform: scale(1.05); box-shadow: 0 0 50px rgba(255,255,255,0.8); }
-    }
-
-    @media (max-width: 600px) {
-      .play-btn { width: 90px; height: 90px; }
-      .triangle {
-        border-left: 22px solid white;
-        border-top: 13px solid transparent;
-        border-bottom: 13px solid transparent;
-      }
     }
   </style>
 </head>
+
 <body>
-
-  <h1 id="title">🎬 Video Eksklusif Untukmu</h1>
-  <p id="desc">Klik tombol di bawah untuk menonton</p>
-
-  <div class="play-btn" onclick="goToLink()">
-    <div class="triangle"></div>
-  </div>
-
-  <script>
-    // 🌍 Deteksi bahasa otomatis
-    const userLang = (navigator.language || navigator.userLanguage || "en").toLowerCase();
-    const title = document.getElementById('title');
-    const desc = document.getElementById('desc');
-
-    switch (true) {
-      case userLang.startsWith('id'):
-        title.innerText = "🎬 Video Eksklusif Untukmu";
-        desc.innerText = "Klik tombol di bawah untuk menonton";
-        break;
-      case userLang.startsWith('es'):
-        title.innerText = "🎬 Video Exclusivo Para Ti";
-        desc.innerText = "Haz clic en el botón de abajo para ver";
-        break;
-      case userLang.startsWith('ja'):
-        title.innerText = "🎬 あなたのための特別な動画";
-        desc.innerText = "下のボタンをクリックして視聴する";
-        break;
-      default:
-        title.innerText = "🎬 Exclusive Video For You";
-        desc.innerText = "Click the button below to watch";
-    }
-
-    // Tombol interaksi
-    function goToLink() {
-      if (navigator.vibrate) navigator.vibrate(80);
-      window.location.href = "https://referredrender.com/ekgerpjzfe?key=53fdd524b77ca3c378b16cbc54e32da1";
-    }
-  </script>
-
+  <div class="loader"></div>
+  <p>loading...</p>
   <!-- 📊 Histats Tracking -->
   <script type="text/javascript">
     var _Hasync = _Hasync || [];
@@ -145,10 +68,6 @@
       <img src="//sstatic1.histats.com/0.gif?4994489&101" alt="hit counter" border="0">
     </a>
   </noscript>
-  <script
-  type="text/javascript"
-  src="//referredrender.com/da/66/8b/da668bfc7ad11cc915ef786e8ad07e45.js"
-></script>
-
+  
 </body>
 </html>
