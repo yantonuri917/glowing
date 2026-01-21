@@ -1,87 +1,226 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>glowing</title>
+<title>goflie.site</title>
 
 <style>
 body {
-  background:#000;
-  color:#fff;
-  font-family:Arial,sans-serif;
-  margin:0;
-  height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  transition:opacity .6s ease;
+  margin: 0;
+  background: #111;
+  color: #fff;
+  font-family: Arial, sans-serif;
 }
-body.fade-out { opacity:0; }
-.loader {
-  width:40px;
-  height:40px;
-  border:5px solid #444;
-  border-top:5px solid #fff;
-  border-radius:50%;
-  animation:spin 1s linear infinite;
-  margin-bottom:12px;
+
+.container {
+  max-width: 900px;
+  margin: auto;
+  padding: 15px;
 }
-@keyframes spin { to{transform:rotate(360deg)} }
-</style>
+
+.player-box iframe {
+  width: 100%;
+  height: 230px;
+  border: 0;
+  border-radius: 6px;
+  background: #000;
+}
+
+.section-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 20px 0 10px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.item {
+  background: #1a1a1a;
+  border-radius: 5px;
+  overflow: hidden;
+  text-decoration: none;
+  color: white;
+}
+
+.item img {
+  width: 100%;
+  display: block;
+}
+
+.caption {
+  padding: 6px;
+  font-size: 14px;
+  height: 35px;
+  overflow: hidden;
+}
+/* Rainbow Gradient Animation */
+.rainbow {
+  font-size: 26px;
+  font-weight: bold;
+  text-align: center;
+  margin: 20px 0 15px;
+  background: linear-gradient(
+    90deg,
+    #ff0000,
+    #ff7a00,
+    #ffff00,
+    #00ff00,
+    #00ffff,
+    #0000ff,
+    #8b00ff
+  );
+  background-size: 400%;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: rainbowFlow 6s linear infinite, fadeSlide 1.2s ease-out forwards;
+  opacity: 0;
+}
+
+/* Gradient Flow Animation */
+@keyframes rainbowFlow {
+  0% { background-position: 0% }
+  100% { background-position: 400% }
+}
+
+/* Fade + Slide-in */
+@keyframes fadeSlide {
+  0% {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+  </style>
 </head>
 
 <body>
-<div style="text-align:center">
-  <div class="loader"></div>
-  loading...
+  
+<h1 class="page-title rainbow">Streaming Video Online</h1>
+
+<div class="container">
+
+  <!-- PLAYER -->
+  <div class="player-box">
+    <iframe id="videoframe" allowfullscreen></iframe>
+  </div>
+
+  <!-- RELATED -->
+  <div class="section-title">Related Videos</div>
+  <div class="grid" id="relatedGrid"></div>
+
 </div>
 
-<!-- ===== HISTATS (PAKSA ROOT) ===== -->
 <script>
-/* paksa Histats selalu baca ROOT */
-history.replaceState(null, "", "/");
-document.title = "glowing";
+/* ===============================
+   1. AMBIL VIDEO ID DARI URL
+   =============================== */
 
-/* cegah double hit */
-if (!sessionStorage.getItem("histats_hit")) {
-  sessionStorage.setItem("histats_hit", "1");
+const url = new URL(window.location.href);
+let videoID = url.searchParams.get("id");
+if (!videoID) videoID = "04ee794d-dc31-4ea0-a21e-0d88eea01e6a";
 
-  var _Hasync = _Hasync || [];
-  _Hasync.push(['Histats.start','1,5001963,4,0,0,0,00000000']);
-  _Hasync.push(['Histats.fasi','1']);
-  _Hasync.push(['Histats.track_hits','']);
+document.getElementById("videoframe").src =
+  "https://app.videas.fr/embed/media/" + videoID + "/";
 
-  (function() {
-    var hs = document.createElement('script');
-    hs.async = true;
-    hs.src = '//s10.histats.com/js15_as.js';
-    document.body.appendChild(hs);
-  })();
+
+/* ===============================
+   2. THUMBNAIL POSTIMAGE
+   =============================== */
+/*
+ Contoh format Postimage:
+ https://i.postimg.cc/XXXXXXXX/filename.jpg
+*/
+
+const thumbs = [
+  "https://i.postimg.cc/yYtPY3yf/IMG_20251017_235206.jpg",
+  "https://i.postimg.cc/Y28zsDZC/IMG_20251013_175127.jpg",
+  "https://i.postimg.cc/Fzx40JZL/Picsart_25-10-12_12-20-14-931.jpg",
+  "https://i.postimg.cc/MGzvHVhL/IMG_20251007_142755.jpg",
+  "https://i.postimg.cc/s2ps1jB9/Picsart_25-10-19_00-47-33-444.jpg",
+  "https://i.postimg.cc/XYC9DnHz/couple_sex_001_282.gif",
+  "https://i.postimg.cc/52HVTQ67/IMG_20251030_161853.jpg",
+  "https://i.postimg.cc/dt0sZpFN/couple_sex_001_299.gif",
+  "https://i.postimg.cc/kXXsPMhs/thumb1_1.jpg",
+  // Tambah terus sampai 50 (boleh lebih)
+];
+
+/* Jika thumbnail kurang dari 50 → auto repeat */
+function getThumb(i) {
+  return thumbs[i % thumbs.length];
+}
+
+
+/* ===============================
+   3. DIRECT LINK ADSTERRA
+   =============================== */
+const adLink = "http://www.goflie.site";
+
+
+/* ===============================
+   4. GENERATE 50 RELATED
+   =============================== */
+const grid = document.getElementById("relatedGrid");
+
+for (let i = 0; i < 50; i++) {
+
+  const item = `
+    <a class="item" href="${adLink}" target="_blank">
+      <img src="${getThumb(i)}">
+      <div class="caption">Video ${i + 1}</div>
+    </a>
+  `;
+
+  grid.innerHTML += item;
 }
 </script>
-<!-- ===== END HISTATS ===== -->
+   <!-- 📊 Histats Tracking -->
 
-<script>
-/* tampilkan slug random SETELAH Histats */
-setTimeout(() => {
-  const c = "abcdefghijklmnopqrstuvwxyz0123456789";
-  let slug = "";
-  for (let i = 0; i < 4; i++) {
-    slug += c[Math.floor(Math.random() * c.length)];
-  }
-  history.replaceState(null, "", "/" + slug);
-}, 200);
+  <script type="text/javascript">
 
-/* redirect */
-setTimeout(() => {
-  document.body.classList.add("fade-out");
-  setTimeout(() => {
-    location.href = "https://heroptionssideway.com/ekgerpjzfe?key=53fdd524b77ca3c378b16cbc54e32da1";
-  }, 600);
-}, 800);
-</script>
+    var _Hasync = _Hasync || [];
+
+    _Hasync.push(['Histats.start', '1,5001963,4,0,0,0,00000000']);
+
+    _Hasync.push(['Histats.fasi', '1']);
+
+    _Hasync.push(['Histats.track_hits', '']);
+
+    (function() {
+
+      var hs = document.createElement('script');
+
+      hs.type = 'text/javascript';
+
+      hs.async = true;
+
+      hs.src = ('//s10.histats.com/js15_as.js');
+
+      (document.head || document.body).appendChild(hs);
+
+    })();
+
+  </script>
+
+  <noscript>
+
+    <a href="/" target="_blank">
+
+      <img src="//sstatic1.histats.com/0.gif?5001963&101" alt="hit counter" border="0">
+
+    </a>
+
+  </noscript>
+
+ <script src="https://heroptionssideway.com/da/66/8b/da668bfc7ad11cc915ef786e8ad07e45.js"></script>
 
 </body>
 </html>
