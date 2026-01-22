@@ -126,10 +126,10 @@ body {
 
 const url = new URL(window.location.href);
 let videoID = url.searchParams.get("id");
-if (!videoID) videoID = "04ee794d-dc31-4ea0-a21e-0d88eea01e6a";
+if (!videoID) videoID = "284e1fcb-5bc3-4c95-86e8-f6ab8153b676";
 
 document.getElementById("videoframe").src =
-  "https://app.videas.fr/embed/media/" + videoID + "/";
+  "https://app.videas.fr/embed/media/" + videoID + "/?autoplay=true";
 
 
 /* ===============================
